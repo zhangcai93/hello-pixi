@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://pixijs.download/v6.2.2/pixi.min.js"></script>
+</head>
+<body>
+    <script>
+        const app = new PIXI.Application({
+            width: 640,
+            height: 360
+        });
+        const loader = new PIXI.Loader()
+        app.renderer.backgroundColor = 0x061639;
+        document.body.appendChild(app.view);
+    
+        loader
+        .add("images/animals.json")
+        .load(setup);
+    
+    
+        function setup() {
+            animalTextures = loader.resources["images/animals.json"].textures
+            
+            // The cat
+            cat = new PIXI.Sprite(animalTextures["cat.png"]);
+            cat.position.set(16, 16);
+
+            // The hedgehog
+            hedgehog = new PIXI.Sprite(animalTextures["hedgehog.png"]);
+            hedgehog.position.set(32, 32);
+
+            // The tiger
+            tiger = new PIXI.Sprite(animalTextures["tiger.png"]);
+            tiger.position.set(64, 64);
+    
+            animals = new PIXI.Container();
+
+            animals.addChild(cat);
+            animals.addChild(hedgehog);
+            animals.addChild(tiger);
+
+            animals.x = 100
+
+
+            app.stage.addChild(animals);
+
+            console.log('tiger.parent.toGlobal:', tiger.parent.toGlobal(tiger.position));
+            console.log('tiger.position', tiger.position);
+            // getGlobalPosition: 画布左上角到精灵的距离，而不知道或不关心精灵的父容器是什么
+            console.log('tiger.getGlobalPosition()', tiger.getGlobalPosition());
+            // 使用toLocal查看精灵tiger和其他精灵cat之间的距离。
+            console.log('tiger.toLocal(tiger.position, cat)', tiger.toLocal(tiger.position, cat));
+        }
+    </script>
+</body>
+</html>

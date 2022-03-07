@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>texture</title>
+    <script src="https://pixijs.download/v6.2.2/pixi.min.js"></script>
+</head>
+<body>
+<script>
+    const app = new PIXI.Application({
+        width: 640,
+        height: 360
+    });
+    const loader = new PIXI.Loader()
+    app.renderer.backgroundColor = 0x061639;
+    document.body.appendChild(app.view);
+
+    loader
+    .add("images/animals.json")
+    .load(setup);
+
+
+    function setup() {
+        console.log(PIXI.utils.TextureCache)
+        animalTextures = loader.resources["images/animals.json"].textures
+
+        cat = new PIXI.Sprite(animalTextures["cat.png"]);
+        app.stage.addChild(cat);
+
+        cat.vx = 0;
+        cat.vy = 0;
+
+        app.ticker.add(delta => gameLoop(delta));
+        // gameLoop()
+    }
+
+    // gameLoop()
+    function gameLoop(delta){
+        //Call this `gameLoop` function on the next screen refresh
+        //(which happens 60 times per second)
+        // requestAnimationFrame(gameLoop);
+
+        //Move the cat 1 pixel 
+        // cat.x += 1;
+        cat.vx = 1;
+        cat.vy = 1;
+        
+        cat.x += cat.vx;
+        cat.y += cat.vy;
+    }
+</script>
+</body>
+</html>

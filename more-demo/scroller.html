@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroller</title>
+    <script src="https://pixijs.download/v6.2.2/pixi.min.js"></script>
+    <style>
+        .common-dom {
+            position: absolute;
+            top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div align="center">
+    <div id="game-canvas"></div>
+    <!-- <div class="common-dom">common-dom</div> -->
+</div>
+
+<script src="./TilingSpriteItem.js"></script>
+<script>
+    let app = new PIXI.Application({
+        width: 512,
+        height: 384
+    });
+    document.getElementById("game-canvas").appendChild(app.view);
+    
+    let stage = app.stage;
+    let renderer = app.render;
+
+    let far = new TilingSpriteItem("resources/bg-far.png", 512, 256)
+    let mid = new TilingSpriteItem("resources/bg-mid.png", 512, 256)
+    mid.y = 128;
+    stage.addChild(far, mid); 
+
+
+    update()
+    function update() {
+        far.update(-0.128)
+        mid.update(-0.64)
+        requestAnimationFrame(update);
+    }
+</script>
+</body>
+</html>

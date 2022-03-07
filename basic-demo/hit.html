@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hit</title>
+    <script src="https://pixijs.download/v6.2.2/pixi.min.js"></script>
+</head>
+<body>
+<script>
+
+</script>
+<script src="./keybord.js"></script>
+<script src="./hitTestRectangle.js"></script>
+<script>
+    const app = new PIXI.Application({
+        width: 640,
+        height: 360
+    });
+    document.body.appendChild(app.view);
+    app.renderer.backgroundColor = 0xffffcc;
+
+    let rectangle = new PIXI.Graphics(); 
+    rectangle.lineStyle(4, 0xFF3300, 1);
+    rectangle.beginFill(0x66CCFF);
+    rectangle.drawRect(0, 0, 64, 64);
+    rectangle.endFill();
+    rectangle.x = 170;
+    rectangle.y = 150;
+    app.stage.addChild(rectangle);
+
+    let circle = new PIXI.Graphics();
+    circle.beginFill(0x9966FF);
+    circle.drawCircle(0, 0, 32);
+    circle.endFill();
+    circle.x = 32;
+    circle.y = 150;
+    circle.vx = 0;
+    circle.vy = 0;
+    app.stage.addChild(circle);
+
+    let message = new PIXI.Text("No collision...");
+    app.stage.addChild(message);
+
+    let startPlay = false
+
+    let rightKey = keyboard("ArrowRight");
+
+    rightKey.press = () => {
+        circle.vx = 3;
+        startPlay = true
+        play()
+    };
+    rightKey.release = () => {
+        circle.vx = 0;
+        startPlay = false
+    };
+
+    function play(delta) {
+        if (!startPlay) {
+            return
+        }
+        requestAnimationFrame(play);
+        circle.x += circle.vx;
+        circle.y += circle.vy;
+
+        //check for a collision between the cat and the box
+        if (hitTestRectangle(circle, rectangle)) {
+            //if there's a collision, change the message text
+            //and tint the box red
+            message.text = "hit!";
+            rectangle.tint = 0xff3300;
+        } else {
+            //if there's no collision, reset the message
+            //text and the box's color
+            message.text = "No collision...";
+            rectangle.tint = 0xccff99;
+        }
+    }
+</script>
+</body>
+</html>

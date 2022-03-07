@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keybord</title>
+    <script src="https://pixijs.download/v6.2.2/pixi.min.js"></script>
+</head>
+<body>
+<script>
+function keyboard(value) {
+  let key = {};
+  key.value = value;
+  key.isDown = false;
+  key.isUp = true;
+  key.press = undefined;
+  key.release = undefined;
+  // The `downHandler`
+  key.downHandler = event => {
+    if (event.key === key.value) {
+      if (key.isUp && key.press) key.press();
+      key.isDown = true;
+      key.isUp = false;
+      event.preventDefault();
+    }
+  };
+
+  // The `upHandler`
+  key.upHandler = event => {
+    if (event.key === key.value) {
+      if (key.isDown && key.release) key.release();
+      key.isDown = false;
+      key.isUp = true;
+      event.preventDefault();
+    }
+  };
+
+  // Attach event listeners
+  const downListener = key.downHandler.bind(key);
+  const upListener = key.upHandler.bind(key);
+  
+  window.addEventListener(
+    "keydown", downListener, false
+  );
+  window.addEventListener(
+    "keyup", upListener, false
+  );
+  
+  // Detach event listeners
+  key.unsubscribe = () => {
+    window.removeEventListener("keydown", downListener);
+    window.removeEventListener("keyup", upListener);
+  };
+  
+  return key;
+}
+
+</script>  
+
+
+<script>
+    const app = new PIXI.Application({
+        width: 640,
+        height: 360
+    });
+    const loader = new PIXI.Loader()
+    document.body.appendChild(app.view);
+
+    loader
+    .add("images/animals.json")
+    .load(setup);
+
+
+    function setup() {
+        console.log(PIXI.utils.TextureCache)
+        animalTextures = loader.resources["images/animals.json"].textures
+
+        cat = new PIXI.Sprite(animalTextures["cat.png"]);
+        app.stage.addChild(cat);
+
+        cat.x = 200;
+        cat.vx = 0;
+        cat.vy = 0;
+
+        let left = keyboard("ArrowLeft");
+
+        left.press = () => {
+            //Change the cat's velocity when the key is pressed
+            cat.vx = -5;
+        };
+        left.release = () => {
+            cat.vx = 0;
+        };
+
+        app.ticker.add(delta => gameLoop(delta));
+        // gameLoop()
+    }
+
+    // gameLoop()
+    function gameLoop(delta){ 
+        cat.x += cat.vx;
+        cat.y += cat.vy;
+    }
+</script>
+</body>
+</html>

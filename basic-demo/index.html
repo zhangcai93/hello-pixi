@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://pixijs.download/v6.2.2/pixi.min.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+        let type = "WebGL"
+        if(!PIXI.utils.isWebGLSupported()){
+            type = "canvas"
+        }
+
+        PIXI.utils.sayHello(type)
+
+        const app = new PIXI.Application({
+            width: 640,
+            height: 360
+        });
+        const loader = new PIXI.Loader()
+        app.renderer.backgroundColor = 0x061639;
+        document.body.appendChild(app.view);
+
+
+        let stage = app.stage;
+        let color = "https://www.kkkk1000.com/images/learnPixiJS-VisualEffects/bg.jpg";
+        loader.add(color).load(setup);
+
+        function setup() {
+            //创建精灵
+			let resources = loader.resources;
+            colorSprite = new PIXI.Sprite(resources[color].texture);
+
+            // colorSprite.position.set(10, 10)
+            // colorSprite.scale.set(0.5, 0.5);
+
+            // colorSprite.anchor.set(0.5, 0)
+            // colorSprite.rotation = 0.5;
+
+            colorSprite.pivot.set(10, 10)
+            
+            stage.addChild(colorSprite);
+        }
+    </script>
+
+    <!-- <script>
+
+        //创建一个 Pixi应用 需要的一些参数
+        let option = {
+            width: 640,
+            height: 360,
+            transparent: true,
+        }
+        //创建一个 Pixi应用
+        let app = new PIXI.Application(option);
+        const loader = new PIXI.Loader()
+        //获取舞台
+        let stage = app.stage;
+        //获取渲染器
+        let renderer = app.renderer;
+        //把 Pixi 创建的 canvas 添加到页面上
+        document.body.appendChild(app.view);
+
+        //需要加载的图片的地址
+        let color = "https://www.kkkk1000.com/images/learnPixiJS-VisualEffects/bg.jpg";
+        let blackWhite = "https://www.kkkk1000.com/images/learnPixiJS-VisualEffects/bg2.png";
+        let clear = "https://www.kkkk1000.com/images/learnPixiJS-VisualEffects/clear1.png";
+
+        //需要用到的精灵
+        let colorSprite;
+        let blackWhiteSprite;
+        let clearSprite;
+        //加载图像，加载完成后执行setup函数 
+        loader.add([color, blackWhite, clear]).load(setup);
+
+        function setup() {
+            //创建精灵
+			let resources = loader.resources;
+            colorSprite = new PIXI.Sprite(resources[color].texture);
+            blackWhiteSprite = new PIXI.Sprite(resources[blackWhite].texture);
+            clearSprite = new PIXI.Sprite(resources[clear].texture);
+
+            clearSprite.x = 250;
+            clearSprite.y = 250;
+			clearSprite.anchor.x = 0.5;
+			clearSprite.anchor.y = 0.5;
+
+            colorSprite.mask = clearSprite;
+
+            //把精灵添加到舞台上
+            stage.addChild(blackWhiteSprite);
+            stage.addChild(colorSprite);
+            stage.addChild(clearSprite);
+
+            //开始游戏循环
+            gameLoop();
+        }
+
+        // 将游戏的当前状态设置为play：
+        // let state = play;
+        function gameLoop() {
+            // 循环调用gameLoop
+            requestAnimationFrame(gameLoop);
+            // 更新当前的游戏状态
+            play();
+            // 渲染舞台
+            renderer.render(stage);
+        }
+
+        //使精灵移动的函数
+        function play() {
+            if (clearSprite.width < 1200) {
+                clearSprite.width += 4;
+                clearSprite.height += 4;
+            }
+        }
+    </script> -->
+</body>
+</html>
