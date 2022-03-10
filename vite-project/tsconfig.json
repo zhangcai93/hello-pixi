@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "useDefineForClassFields": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "allowJs": true,
+    "baseUrl": ".",
+    "paths": {
+        "@common/*": ["./src/common/*"],
+        "@assets/*": ["./src/assets/*"],
+        "@components/*": ["./src/components/*"],
+        "@css/*": ["./src/common/css/*"],
+    },
+    "lib": [
+        "dom",
+        "es5",
+        "scripthost",
+        "es2015.promise"
+    ],
+    "types": ["node"]
+},
+"exclude": [
+    "node_modules",
+    "**/*.spec.ts"
+]
+}
+
