@@ -1,11 +1,12 @@
 import { Application, IApplicationOptions, Loader, InteractionEvent, utils } from 'pixi.js';
-import * as Bump from 'pixi-plugin-bump/src/Bump';
 import Sky from './sky';
 import Bee from './bee';
-import Blocks from './blocks'
-import {eventEmitter} from '@common/gameUtils'
-
-console.log('utils.EventEmitter=====', eventEmitter)
+import Blocks from './blocks';
+import { eventEmitter, getLocalJsonTexture } from '@common/gameUtils';
+import Bump from '@common/Bump';
+// import方式引入json文件会被处理, pixi的Loder无法识别
+import gameJson from "@assets/game.json";
+import gamePng from "@assets/game.png";
 
 export default class Game {
 
@@ -24,12 +25,13 @@ export default class Game {
         this.fiteToWindow(this.app.renderer.view);
 
         this.loader = new Loader();
-        this.loadResource('src/assets/game.json');
+        // this.loadResource('src/assets/game.json');
 
+        this.loadResource2();
         this.bump = new Bump();
     }
 
-    public mounted(container: HTMLElement) {
+    public mounted(container: any) {
         container.appendChild(this.app.renderer.view);
         this.handleEvent();
     }
@@ -47,10 +49,15 @@ export default class Game {
     private loadResource(name: string) {
         this.loader
             .add(name)
-            .load((res) => {
-                this.textures = this.loader.resources[name].textures;
+            .load((loader, resources) => {
+                this.textures = resources.textures;
                 this.setup()
             });
+    }
+
+    private loadResource2() {
+        this.textures = getLocalJsonTexture(gameJson, gamePng);
+        this.setup();
     }
 
     private setup() {
@@ -129,7 +136,7 @@ export default class Game {
         });
         // 碰到画布边界, 动画停止
         if (pixieVsCanvas) {
-            this.gameStop();
+            this.handleGameOver();
         }
     }
 
@@ -172,10 +179,7 @@ export default class Game {
     }
 
     private handleGameOver() {
-        // console.log('handleGameOver=======')
-        // window.alert('finish')
         this.gameStop();
-
         eventEmitter.emit('gameOver');
     }
 }

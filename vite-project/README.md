@@ -27,3 +27,7 @@ eventEmitter.on('gameOver', () => {
     })
 })
 ```
+
+## Other
+[ts编译报错](https://github.com/pixijs/pixijs/issues/8182)
+[加载本地json问题](https://github.com/pixijs/pixijs/issues/4223)

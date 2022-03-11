@@ -23,7 +23,7 @@
         "scripthost",
         "es2015.promise"
     ],
-    "types": ["node"]
+    "types": ["node", "offscreencanvas"]
 },
 "exclude": [
     "node_modules",

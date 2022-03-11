@@ -13,7 +13,7 @@ const gameOption = {
 const game = new Game(gameOption)
 
 onMounted(() => {
-    const gameArea: HTMLElement = document.querySelector('.game');
+    const gameArea = document.querySelector('.game');
     game.mounted(gameArea);
 
     eventEmitter.on('gameOver', () => {
